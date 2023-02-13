@@ -1,0 +1,33 @@
+$font-size-base: 1rem;
+$font-weight-base: 400;
+$line-height-base: 1.2;
+
+$ff-head: 'Montserrat', sans-serif;
+$ff-main: 'Montserrat', sans-serif;
+
+$t-duration: 0.4s;
+
+$c-black: #000;
+$c-black-blue: #0C0C21;
+$c-grey: #00000029;
+$-grey-blue: #00347026;
+$c-grey-green: #00347026;
+$c-white-dark: #F4F4F7;
+$c-white: #fff;
+$c-white-purple: #C9C9E3;
+
+$c-main: #1F1DEB;
+$c-main-light: #8F8EF5;
+$c-pink: #EB1D6C;
+
+$responsive-ios: 812px;
+
+$breakpoints: (
+  mobile-small: 374px,
+  mobile-medium: 575px,
+  mobile: 767px,
+  admin-bar: 782px,
+  tablet: 1023px,
+  desktop-small: 1200px,
+  desktop-medium: 1399px
+);

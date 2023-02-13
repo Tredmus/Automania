@@ -1,0 +1,68 @@
+//common
+
+@mixin clearfix {
+  content: '';
+  line-height: 0;
+  display: table;
+  clear: both;
+}
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin scroll {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: .35rem;
+  }
+  
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background-color: #444444;
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $c-grey-light;
+  }
+  
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #c9c9c9;
+  }
+}
+
+//responsive
+
+@mixin breakpoint-up($name, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @media (min-width: $min) {
+    @content;
+  }
+}
+@mixin breakpoint-down($name, $breakpoints: $breakpoints) {
+  $max: breakpoint-max($name, $breakpoints);
+
+  @if $max ==$breakpoints[mobile] {
+    @media (max-width: $max), screen and (max-width: $responsive-ios) and (orientation: landscape) {
+      @content;
+    }
+  } @else {
+    @media (max-width: $max) {
+      @content;
+    }
+  }
+}
+
+@mixin breakpoint-between($lower, $upper, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($lower, $breakpoints);
+  $max: breakpoint-max($upper, $breakpoints);
+
+  @media (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}

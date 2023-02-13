@@ -1,0 +1,14 @@
+@import '../../styles/main.scss';
+
+.home {
+    .header {
+        padding: 2rem 0;
+    }
+    
+    .carList {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.906rem;
+        // margin: 0 -1rem;
+    }
+}

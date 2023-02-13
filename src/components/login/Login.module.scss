@@ -1,0 +1,14 @@
+@import '../../styles/main.scss';
+
+.login {
+    @include flexCenter;
+    text-transform: uppercase;
+    &:hover {
+        color: $c-main;
+        cursor: pointer;
+    }
+
+    img {
+        margin-right: .2rem;
+    }
+}

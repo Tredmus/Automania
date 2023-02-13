@@ -1,26 +1,98 @@
 .btn {
     display: inline-block;
+    font-weight: 600;
     text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
     position: relative;
-    min-width: 9.625rem;
-    padding: .75rem .5rem;
-    font-size: 1.25rem;
-    border-radius: 0.938rem;
+    padding: 0.625rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
     background-color: $c-main;
     color: $c-white;
     cursor: pointer;
     transition: background-color $t-duration;
-    @include breakpoint-down(mobile) {
-      min-width: 9.063rem;
-    }
-    
   
     &:hover {
       background-color: $c-main-light;
-      color: $c-main;
     }
   
     &:active {
-      transform: scale(0.9);
+      transform: scale(0.95);
+    }
+
+    img {
+      vertical-align: middle;
+      margin-right: 0.625rem;
+    }
+
+    span {
+      vertical-align: middle;
     }
   }
+
+  .row {
+    display: flex;
+  }
+
+  .form {
+    h5 {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.625rem;
+        opacity: .65;
+    }
+
+    .input {
+        width: 100%;
+        max-width: 31.25rem;
+    }
+
+    .inputSmall {
+        max-width: 12.5rem;
+    }
+
+    .formRow {
+        display: flex;
+        gap: 1.875rem;
+    }
+
+    .field {
+        border: 2px solid $c-grey;
+        border-radius: 5px;
+        padding: .75rem;
+        width: 100%;
+        &:focus {
+            outline: none;
+            border: 2px solid $c-main;
+        }
+    }
+
+    .photoField {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed $c-grey;
+        border-radius: 5px;
+        padding: 1.25rem;
+        width: 100%;
+        cursor: pointer;
+        &:focus {
+            outline: none;
+            border: 2px dashed $c-main;
+        }
+    }
+
+    .photoBtn {
+        width: 12.5rem;
+        height: 2.625rem;
+        font-weight: 800;
+        color: $c-main;
+        background-color: $c-white;
+        border: 2px dashed $c-main-light;
+    }
+}

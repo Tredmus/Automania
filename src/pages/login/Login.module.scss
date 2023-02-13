@@ -1,0 +1,22 @@
+@import '../../styles/main.scss';
+
+.login {
+    position: fixed;
+    inset: 0;
+    background-image: url('../../../public/images/background.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    &:after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: $c-main;
+        opacity: .6;
+        z-index: 1;
+    }
+
+    .form {
+        z-index: 2;
+    }
+}

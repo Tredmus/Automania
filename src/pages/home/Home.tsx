@@ -6,7 +6,7 @@ import { Car, CarType } from "../../components/car/Car";
 export const Home = () => {
   const [data, setData] = useState([]);
   const [cars, setCars] = useState<CarType[]>([]);
-  // const axios = require("axios");
+  const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
     axios
@@ -19,7 +19,7 @@ export const Home = () => {
       .catch(function (error: any) {
         console.log(error);
       });
-  }, []);
+  }, [deleted]);
 
   return (
     <div className={classes.home}>
@@ -28,7 +28,13 @@ export const Home = () => {
       </header>
       <div className={classes.carList}>
         {cars.map((car: CarType) => (
-          <Car key={car._id} car={car} />
+          <Car
+            key={car._id}
+            car={car}
+            isDeleted={() => {
+              setDeleted(!deleted);
+            }}
+          />
         ))}
       </div>
     </div>

@@ -1,4 +1,4 @@
-export function formatPrice(number: number): string {
+export const formatPrice = (number: number): string => {
   let numberString: string = number.toString();
   let separatedNumber: Array<string | number> = [];
 
@@ -6,4 +6,4 @@ export function formatPrice(number: number): string {
     separatedNumber.push(numberString.substring(i - 2, i + 1));
   }
   return separatedNumber.reverse().join(" ");
-}
+};

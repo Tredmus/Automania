@@ -1,0 +1,18 @@
+@import '../../styles/main.scss';
+
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-left: .2rem;
+    padding-right: 1.7rem;
+;
+
+    img {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -.5rem;
+    }
+}

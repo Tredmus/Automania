@@ -3,12 +3,26 @@
 .home {
     .header {
         padding: 2rem 0;
+        @include breakpoint-down(mobile) {
+            padding: .5rem 0;
+        }
     }
     
     .carList {
         display: flex;
         flex-wrap: wrap;
         gap: 1.906rem;
+        max-height: 67vh;
+        overflow-y: auto;
+        -ms-overflow-style: none; /* for Internet Explorer, Edge */
+        scrollbar-width: none; /* for Firefox */
+        &::-webkit-scrollbar {
+            display: none; /* for Chrome, Safari, and Opera */
+        }
+        @include breakpoint-down(mobile) {
+            max-height: 77vh;
+            gap: 1.25rem;
+        }
         // margin: 0 -1rem;
     }
 }

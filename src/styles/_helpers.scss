@@ -12,6 +12,37 @@
     color: $c-white;
     cursor: pointer;
     transition: background-color $t-duration;
+    @include breakpoint-down(mobile) {
+      padding: 0.4rem;
+      aspect-ratio: 1/1;
+    }
+    &.btn--inactive {
+      background-color: $c-main-light;
+      pointer-events: none;
+      &:hover {
+        cursor: default;
+      }
+    }
+    &.btn--white {
+      background-color: $c-white;
+      color: $c-black-blue;
+      border: .5px solid $c-main;
+      &:hover {
+        background-color: $c-main-light;
+        color: $c-white;
+      }
+    }
+    &.btn--pink {
+        background-color: $c-pink;
+        color: $c-white;
+        &:hover {
+            background-color: $c-pink-light;
+        }
+    }
+    &.btn--big {
+        width: 100%;
+        border-radius: 5px;
+    }
   
     &:hover {
       background-color: $c-main-light;
@@ -24,10 +55,16 @@
     img {
       vertical-align: middle;
       margin-right: 0.625rem;
+      @include breakpoint-down(mobile) {
+        margin: 0;
+      }
     }
 
     span {
       vertical-align: middle;
+      @include breakpoint-down(mobile) {
+        display: none;
+      }
     }
   }
 
@@ -37,7 +74,7 @@
 
   .form {
     h5 {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     label {
@@ -50,10 +87,21 @@
     .input {
         width: 100%;
         max-width: 31.25rem;
+        &.small {
+          width: auto;
+          max-width: auto;
+      }
+        &.large {
+            max-width: 100%;
+        }
     }
 
     .inputSmall {
         max-width: 12.5rem;
+    }
+
+    .formGroup {
+      width: 100%;
     }
 
     .formRow {
@@ -76,14 +124,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed $c-grey;
+        border: .5px dashed $c-grey;
         border-radius: 5px;
         padding: 1.25rem;
         width: 100%;
         cursor: pointer;
         &:focus {
             outline: none;
-            border: 2px dashed $c-main;
+            border: .5px dashed $c-main;
         }
     }
 
@@ -94,5 +142,23 @@
         color: $c-main;
         background-color: $c-white;
         border: 2px dashed $c-main-light;
+        &:hover {
+            background-color: $c-main-light;
+            border-color: $c-main;
+        }
+        &.active {
+            border: .5px solid $c-main;
+        }
+
+        input {
+            display: none;
+        }
     }
+
+    
+}
+
+.buttons {
+  display: flex;
+  gap: 1.875rem;
 }

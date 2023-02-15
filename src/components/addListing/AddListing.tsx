@@ -3,7 +3,10 @@ import classes from "./AddListing.module.scss";
 
 export const AddListing = () => {
   return (
-    <NavLink to="/listing" className={`${classes.addListing} btn`}>
+    <NavLink
+      to="/listing"
+      className={`${classes.addListing} ${classes.btn} btn`}
+    >
       <img src="Images/plus.svg" alt="" />
 
       <span>Add Listing</span>

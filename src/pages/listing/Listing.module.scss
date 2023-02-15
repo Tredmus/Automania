@@ -13,6 +13,39 @@
 
     .x {
         @include flexCenter;
+        
+        img {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .fieldWrapper {
+        position: relative;
+        input {
+            padding-right: 3.5rem;
+        }
+
+        .currency {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            padding: .5rem;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: 600;
+            &:before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                width: 1px;
+                height: 1.5rem;
+                background: $c-black-blue;
+            }
+        }
     }
 
     .line {
@@ -20,5 +53,11 @@
         height: 1px;
         margin: 1.5rem 0;
         background: $c-main;
+    }
+
+    .pictures {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
     }
 }

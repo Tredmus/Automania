@@ -10,5 +10,18 @@
 
     img {
         margin-right: .2rem;
+        @include breakpoint-down(mobile) {
+            max-width: 1.225rem;
+        }
+    }
+
+    h6 {
+        font-size: 0.875rem;
+    }
+
+    h6, span {
+        @include breakpoint-down(mobile) {
+            display: none;
+        }
     }
 }

@@ -1,25 +1,23 @@
-import React from "react";
 import "./styles/main.scss";
+import { BrowserRouter } from "react-router-dom";
 import { Header } from "./components/header/Header";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "./pages/home/Home";
-import { Listing } from "./pages/listing/Listing";
-import { Login } from "./pages/login/Login";
+import { Routes } from "./components/routes/Routes";
+import { ContextProvider } from "./ContextProvider";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Header />
-        <div className="pages shell">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/listing" element={<Listing />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+    <ContextProvider>
+      <BrowserRouter>
+        <div className="App">
+          <Header />
+          <div className="pagesWrapper">
+            <div className="pages shell">
+              <Routes />
+            </div>
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ContextProvider>
   );
 }
 

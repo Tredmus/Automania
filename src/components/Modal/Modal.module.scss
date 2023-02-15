@@ -1,0 +1,25 @@
+@import '../../styles/main.scss';
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: $c-black-blue;
+    opacity: .8;
+    z-index: 100;
+  }
+
+.modal {
+  display: flex;
+  @include flexCenter;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  &.free {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translate(0, 0);
+  }
+  }

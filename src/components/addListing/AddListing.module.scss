@@ -1,5 +1,11 @@
 @import '../../styles/main.scss';
 
 .addListing {
+
+    @include breakpoint-down(mobile) {
+        span {
+            display: none;
+        }
+    }
     
 }

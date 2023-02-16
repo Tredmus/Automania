@@ -3,10 +3,10 @@ import { createContext, useContext, useState } from "react";
 export const Context = createContext({} as any);
 
 export const ContextProvider = ({ children }: any) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false as any);
 
-  const logIn = () => {
-    setLoggedIn(true);
+  const logIn = (name: string) => {
+    setLoggedIn(name);
   };
 
   return (

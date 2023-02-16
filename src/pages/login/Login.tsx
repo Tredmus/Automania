@@ -36,7 +36,7 @@ export const Login = () => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("id", response.data.user._id);
       localStorage.setItem("name", response.data.user.fullName);
-      logIn();
+      logIn(response.data.user.fullName.split(" ")[0]);
       navigate("/");
     } catch (error) {
       console.error("error", error);

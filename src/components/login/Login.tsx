@@ -29,7 +29,7 @@ export const Login = () => {
     <NavLink to="/login" className={classes.login}>
       <img src={`images/${token ? "profile-logged" : "profile"}.svg`} alt="" />
       {token?.length || loggedIn ? (
-        <h6>Hi, {firstName}</h6>
+        <h6>Hi, {loggedIn ? loggedIn : firstName}</h6>
       ) : (
         <span>Log in</span>
       )}

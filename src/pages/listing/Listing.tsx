@@ -78,9 +78,7 @@ export const Listing = () => {
     setMainPhotoFile(undefined);
   };
 
-  const photosSubmit = (e: any) => {
-    e.preventDefault();
-
+  const photosSubmit = () => {
     const headers = {
       Authorization: authToken,
     };
@@ -91,30 +89,32 @@ export const Listing = () => {
       return formData.append("images", photo);
     });
 
-    axios
+    return axios
       .post("https://automania.herokuapp.com/file/upload", formData, {
         headers,
       })
       .then((response) => {
         const urls = response.data.payload.map((image: any) => image.url);
         setPhotoUrls(urls);
+        return urls; // return the urls
       })
       .catch((error) => {
         console.error(error);
+        return []; // return an empty array to prevent errors later
       });
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    await photosSubmit(e);
+    const urls = await photosSubmit(); // wait for the photoUrls to be set
 
     const data = {
       brand,
       model,
       price,
-      mainPhoto: photoUrls[0],
-      additionalPhotos: photoUrls.splice(1),
+      mainPhoto: urls[0],
+      additionalPhotos: urls.slice(1),
     };
 
     const headers = {
@@ -126,9 +126,9 @@ export const Listing = () => {
       brand: brand ? brand : editInfo.brand,
       model: model ? model : editInfo.model,
       price: price ? price : editInfo.price,
-      mainPhoto: photoUrls[0] ? photoUrls[0] : editInfo.mainPhoto,
+      mainPhoto: urls[0] ? urls[0] : editInfo.mainPhoto,
       additionalPhotos:
-        photoUrls.length > 1 ? photoUrls.slice(1) : editInfo.additionalPhotos,
+        urls.length > 1 ? urls.slice(1) : editInfo.additionalPhotos,
     };
 
     if (isForEdit) {

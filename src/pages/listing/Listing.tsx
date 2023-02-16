@@ -96,18 +96,18 @@ export const Listing = () => {
       .then((response) => {
         const urls = response.data.payload.map((image: any) => image.url);
         setPhotoUrls(urls);
-        return urls; // return the urls
+        return urls;
       })
       .catch((error) => {
         console.error(error);
-        return []; // return an empty array to prevent errors later
+        return [];
       });
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const urls = await photosSubmit(); // wait for the photoUrls to be set
+    const urls = await photosSubmit();
 
     const data = {
       brand,

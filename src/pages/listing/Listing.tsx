@@ -23,11 +23,11 @@ export const Listing = () => {
     }
   };
 
-  const [isForEdit, setIsForEdit] = useState(checkforEdit());
+  const [isForEdit, setIsForEdit] = useState(checkforEdit);
   const [editInfo, setEditInfo] = useState<any>({});
 
-  const mainPhotoInputRef = useRef<HTMLInputElement | null>(null);
-  const additionalPhotosInputRef = useRef<HTMLInputElement | null>(null);
+  const mainPhotoInputRef = useRef(null);
+  const additionalPhotosInputRef = useRef(null);
 
   const [mainPhoto, setMainPhoto] = useState("");
   const [brand, setBrand] = useState("");
@@ -38,37 +38,31 @@ export const Listing = () => {
 
   const handleMainPhotoClick = () => {
     if (mainPhotoInputRef.current) {
-      mainPhotoInputRef.current.click();
+      (mainPhotoInputRef.current as HTMLInputElement).click();
     }
   };
 
   const handleAdditionalPhotosClick = () => {
     if (additionalPhotosInputRef.current) {
-      additionalPhotosInputRef.current.click();
+      (additionalPhotosInputRef.current as HTMLInputElement).click();
     }
   };
 
-  const [mainPhotoFile, setMainPhotoFile] = useState<File | undefined>();
+  const [mainPhotoFile, setMainPhotoFile] = useState(undefined);
   const [additionalPhotosFile, setAdditionalPhotosFile] = useState<File[]>([]);
 
-  const handleMainPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setMainPhotoFile(file);
-      setMainPhoto(file.name);
-    }
+  const handleMainPhotoChange = (e: any) => {
+    const file = e.target.files[0];
+    setMainPhotoFile(file);
+    setMainPhoto(file.name);
   };
 
-  const handleAdditionalPhotosChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleAdditionalPhotosChange = (e: any) => {
     const files = e.target.files;
-    if (files) {
-      setAdditionalPhotosFile((prevFiles) => [
-        ...prevFiles,
-        ...Array.from(files).map((file: File) => file),
-      ]);
-    }
+    setAdditionalPhotosFile((prevFiles: any) => [
+      ...prevFiles,
+      ...Array.from(files).map((file: any) => file.name),
+    ]);
   };
 
   const handleRemoveImage = (index: number) => {
@@ -84,40 +78,10 @@ export const Listing = () => {
     setMainPhotoFile(undefined);
   };
 
-  const photosSubmit = async () => {
-    const headers = {
-      Authorization: authToken,
-    };
-
-    const formData = new FormData();
-    const photos = [mainPhotoFile, ...additionalPhotosFile];
-    photos.forEach((photo: File) => {
-      return formData.append("images", photo);
-    });
-
-    try {
-      const response = await axios.post(
-        "https://automania.herokuapp.com/file/upload",
-        formData,
-        {
-          headers,
-        }
-      );
-      const urls = response.data.payload.map((image: any) => image.url);
-      setPhotoUrls(urls);
-      return urls;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const photosSubmit = (e: any) => {
     e.preventDefault();
 
-    const photoUrls = await photosSubmit();
-
     const headers = {
-      "Content-Type": "application/json",
       Authorization: authToken,
     };
 
@@ -143,14 +107,22 @@ export const Listing = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const photoUrls = await photosSubmit();
+    await photosSubmit(e);
+
+    const data = {
+      brand,
+      model,
+      price,
+      mainPhoto: photoUrls[0],
+      additionalPhotos: photoUrls.splice(1),
+    };
 
     const headers = {
       "Content-Type": "application/json",
       Authorization: authToken,
     };
 
-    const data = {
+    const putData = {
       brand: brand ? brand : editInfo.brand,
       model: model ? model : editInfo.model,
       price: price ? price : editInfo.price,
@@ -161,7 +133,7 @@ export const Listing = () => {
 
     if (isForEdit) {
       axios
-        .put(`https://automania.herokuapp.com/listing/${isForEdit}`, data, {
+        .put(`https://automania.herokuapp.com/listing/${isForEdit}`, putData, {
           headers,
         })
         .then((response) => {

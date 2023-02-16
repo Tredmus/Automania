@@ -1,10 +1,11 @@
 import classes from "./Car.module.scss";
 import { formatPrice } from "../../functions/formatPrice";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Modal } from "../Modal/Modal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Backdrop } from "../Modal/Backdrop";
+import { Context } from "../../ContextProvider";
 
 export type CarType = {
   additionalPhotos: string[];
@@ -31,6 +32,9 @@ type Props = {
 const userId = localStorage.getItem("id");
 
 export const Car = ({ car, isDeleted }: Props) => {
+  const context = useContext(Context);
+  const id = context.id;
+
   const navigate = useNavigate();
   const formatedPrice = formatPrice(car.price);
   const [isManaged, setIsManaged] = useState(false);
@@ -100,53 +104,54 @@ export const Car = ({ car, isDeleted }: Props) => {
 
       <div className={classes.car}>
         <img src={car.mainPhoto} alt="" className={classes.main} />
-        {userId === car.user._id && (
-          <div className={`${classes.manage} `}>
-            <div className="btn" onClick={handleManage}>
-              <img
-                src="images/settings.svg"
-                alt=""
-                className={classes.settings}
-                onClick={() => {
-                  setBackdrop(true);
-                }}
-              />
-              <span>Manage</span>
-            </div>
-            {isManaged && (
-              <>
-                {backdrop && (
-                  <div
-                    className={classes.backdrop}
-                    onClick={() => setBackdrop(false)}
-                  />
-                )}
-                <ul className={classes.menu}>
-                  <span className={classes.mobile}>
-                    <span>Please select</span>
-                  </span>
+        {userId === car.user._id ||
+          (id === car.user._id && (
+            <div className={`${classes.manage} `}>
+              <div className="btn" onClick={handleManage}>
+                <img
+                  src="images/settings.svg"
+                  alt=""
+                  className={classes.settings}
+                  onClick={() => {
+                    setBackdrop(true);
+                  }}
+                />
+                <span>Manage</span>
+              </div>
+              {isManaged && (
+                <>
+                  {backdrop && (
+                    <div
+                      className={classes.backdrop}
+                      onClick={() => setBackdrop(false)}
+                    />
+                  )}
+                  <ul className={classes.menu}>
+                    <span className={classes.mobile}>
+                      <span>Please select</span>
+                    </span>
 
-                  <li
-                    onClick={() => {
-                      navigate(`/listing?${car._id}`);
-                    }}
-                  >
-                    <div className={classes.imageWrapper}>
-                      <img src="images/pencil.svg" alt="" />
-                    </div>{" "}
-                    <span>Edit Listing</span>
-                  </li>
-                  <li onClick={openModal}>
-                    <div className={classes.imageWrapper}>
-                      <img src="images/trash.svg" alt="" />
-                    </div>{" "}
-                    <span>Delete Listing</span>
-                  </li>
-                </ul>
-              </>
-            )}
-          </div>
-        )}
+                    <li
+                      onClick={() => {
+                        navigate(`/listing?${car._id}`);
+                      }}
+                    >
+                      <div className={classes.imageWrapper}>
+                        <img src="images/pencil.svg" alt="" />
+                      </div>{" "}
+                      <span>Edit Listing</span>
+                    </li>
+                    <li onClick={openModal}>
+                      <div className={classes.imageWrapper}>
+                        <img src="images/trash.svg" alt="" />
+                      </div>{" "}
+                      <span>Delete Listing</span>
+                    </li>
+                  </ul>
+                </>
+              )}
+            </div>
+          ))}
 
         <div className={classes.carInfo}>
           <h6>

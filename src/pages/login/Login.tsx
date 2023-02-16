@@ -7,6 +7,7 @@ import { Context } from "../../ContextProvider";
 export const Login = () => {
   const context = useContext(Context);
   const logIn = context.logIn;
+  const getId = context.getId;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +38,8 @@ export const Login = () => {
       localStorage.setItem("id", response.data.user._id);
       localStorage.setItem("name", response.data.user.fullName);
       logIn(response.data.user.fullName.split(" ")[0]);
+      getId(response.data.user._id);
+
       navigate("/");
     } catch (error) {
       console.error("error", error);

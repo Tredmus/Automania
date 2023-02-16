@@ -90,14 +90,26 @@
         &.small {
           width: auto;
           max-width: auto;
+          @include breakpoint-down(mobile) {
+            max-width: 100%;
+            width: 100%;
+          }
+          
       }
         &.large {
             max-width: 100%;
+        }
+        @include breakpoint-down(mobile) {
+          max-width: 100%;
+          width: 100%;
         }
     }
 
     .inputSmall {
         max-width: 12.5rem;
+        @include breakpoint-down(mobile) {
+          max-width: 100%;
+        }
     }
 
     .formGroup {
@@ -107,6 +119,9 @@
     .formRow {
         display: flex;
         gap: 1.875rem;
+        @include breakpoint-down(mobile) {
+          flex-direction: column;
+        }
     }
 
     .field {
@@ -114,6 +129,7 @@
         border-radius: 5px;
         padding: .75rem;
         width: 100%;
+        font-weight: 700;
         &:focus {
             outline: none;
             border: 2px solid $c-main;
@@ -149,6 +165,10 @@
         &.active {
             border: .5px solid $c-main;
         }
+        @include breakpoint-down(mobile) {
+   
+          @include flexCenter;
+         }
 
         input {
             display: none;

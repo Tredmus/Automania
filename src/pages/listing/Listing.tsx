@@ -9,11 +9,9 @@ export const Listing = () => {
   const navigate = useNavigate();
 
   let url = document.URL;
-  console.log("url", url);
   if (url.includes("?")) {
     url = url.split("?")[1];
   }
-  console.log("url2", url);
 
   const checkforEdit = () => {
     let url = document.URL;
@@ -25,16 +23,11 @@ export const Listing = () => {
     }
   };
 
-  const [isForEdit, setIsForEdit] = useState(checkforEdit);
+  const [isForEdit, setIsForEdit] = useState(checkforEdit());
   const [editInfo, setEditInfo] = useState<any>({});
 
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // let params = serializeFormQuery(event.target);
-  // setSearchParams(params);
-  // console.log("searchParams", searchParams);
-
-  const mainPhotoInputRef = useRef(null);
-  const additionalPhotosInputRef = useRef(null);
+  const mainPhotoInputRef = useRef<HTMLInputElement | null>(null);
+  const additionalPhotosInputRef = useRef<HTMLInputElement | null>(null);
 
   const [mainPhoto, setMainPhoto] = useState("");
   const [brand, setBrand] = useState("");
@@ -45,32 +38,37 @@ export const Listing = () => {
 
   const handleMainPhotoClick = () => {
     if (mainPhotoInputRef.current) {
-      (mainPhotoInputRef.current as HTMLInputElement).click();
+      mainPhotoInputRef.current.click();
     }
   };
 
   const handleAdditionalPhotosClick = () => {
     if (additionalPhotosInputRef.current) {
-      (additionalPhotosInputRef.current as HTMLInputElement).click();
+      additionalPhotosInputRef.current.click();
     }
   };
 
-  const [mainPhotoFile, setMainPhotoFile] = useState(undefined);
+  const [mainPhotoFile, setMainPhotoFile] = useState<File | undefined>();
   const [additionalPhotosFile, setAdditionalPhotosFile] = useState<File[]>([]);
 
-  const handleMainPhotoChange = (e: any) => {
-    const file = e.target.files[0];
-    setMainPhotoFile(file);
-    setMainPhoto(file.name);
+  const handleMainPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setMainPhotoFile(file);
+      setMainPhoto(file.name);
+    }
   };
 
-  const handleAdditionalPhotosChange = (e: any) => {
+  const handleAdditionalPhotosChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = e.target.files;
-    setAdditionalPhotosFile((prevFiles: any) => [
-      ...prevFiles,
-      ...Array.from(files).map((file: any) => file.name),
-    ]);
-    console.log(additionalPhotosFile);
+    if (files) {
+      setAdditionalPhotosFile((prevFiles) => [
+        ...prevFiles,
+        ...Array.from(files).map((file: File) => file),
+      ]);
+    }
   };
 
   const handleRemoveImage = (index: number) => {
@@ -86,17 +84,44 @@ export const Listing = () => {
     setMainPhotoFile(undefined);
   };
 
-  const photosSubmit = (e: any) => {
-    console.log("photosSubmit");
-    e.preventDefault();
-
+  const photosSubmit = async () => {
     const headers = {
       Authorization: authToken,
     };
 
     const formData = new FormData();
-    console.log("mainPhotoFile", mainPhotoFile);
-    console.log("additionalPhotosFile", additionalPhotosFile);
+    const photos = [mainPhotoFile, ...additionalPhotosFile];
+    photos.forEach((photo: File) => {
+      return formData.append("images", photo);
+    });
+
+    try {
+      const response = await axios.post(
+        "https://automania.herokuapp.com/file/upload",
+        formData,
+        {
+          headers,
+        }
+      );
+      const urls = response.data.payload.map((image: any) => image.url);
+      setPhotoUrls(urls);
+      return urls;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const photoUrls = await photosSubmit();
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: authToken,
+    };
+
+    const formData = new FormData();
     const photos = [mainPhotoFile, ...additionalPhotosFile];
     photos.forEach((photo: any) => {
       return formData.append("images", photo);
@@ -109,42 +134,54 @@ export const Listing = () => {
       .then((response) => {
         const urls = response.data.payload.map((image: any) => image.url);
         setPhotoUrls(urls);
-        console.log("urls", urls);
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    photosSubmit(e);
-
-    const data = {
-      brand,
-      model,
-      price,
-      mainPhoto: photoUrls[0],
-      additionalPhotos: photoUrls.splice(1),
-    };
+    const photoUrls = await photosSubmit();
 
     const headers = {
       "Content-Type": "application/json",
       Authorization: authToken,
     };
 
-    axios
-      .post("https://automania.herokuapp.com/listing/create", data, {
-        headers,
-      })
-      .then((response) => {
-        console.log(response.data);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const data = {
+      brand: brand ? brand : editInfo.brand,
+      model: model ? model : editInfo.model,
+      price: price ? price : editInfo.price,
+      mainPhoto: photoUrls[0] ? photoUrls[0] : editInfo.mainPhoto,
+      additionalPhotos:
+        photoUrls.length > 1 ? photoUrls.slice(1) : editInfo.additionalPhotos,
+    };
+
+    if (isForEdit) {
+      axios
+        .put(`https://automania.herokuapp.com/listing/${isForEdit}`, data, {
+          headers,
+        })
+        .then((response) => {
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      axios
+        .post("https://automania.herokuapp.com/listing/create", data, {
+          headers,
+        })
+        .then((response) => {
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   useEffect(() => {
@@ -152,7 +189,6 @@ export const Listing = () => {
       axios
         .get(`https://automania.herokuapp.com/listing/${isForEdit}`)
         .then((response) => {
-          console.log("RESPONSEEE", response.data.payload);
           setEditInfo(response.data.payload);
 
           const putData = {
@@ -184,7 +220,7 @@ export const Listing = () => {
           <h4>{isForEdit ? "Edit" : "New"} Listing</h4>
         </div>
 
-        <div className="btn" onClick={handleSubmit}>
+        <div className={`${classes.btnDesktop} btn`} onClick={handleSubmit}>
           Save Listing
         </div>
       </header>
@@ -251,9 +287,13 @@ export const Listing = () => {
                 <Image
                   name={mainPhoto && mainPhoto}
                   onClick={() => handleRemoveMainPhoto()}
+                  big={true}
                 />
               ) : (
-                <div className="btn photoBtn" onClick={handleMainPhotoClick}>
+                <div
+                  className={`${classes.photoBtn} btn photoBtn`}
+                  onClick={handleMainPhotoClick}
+                >
                   <input
                     type="file"
                     accept="image/*"
@@ -271,7 +311,7 @@ export const Listing = () => {
               <label htmlFor="model">Additional Photos</label>
               <div className={classes.pictures}>
                 <div
-                  className="btn photoBtn"
+                  className={`${classes.photoBtn} btn photoBtn`}
                   onClick={handleAdditionalPhotosClick}
                 >
                   <img src="Images/plus-blue.svg" alt="" />
@@ -295,6 +335,9 @@ export const Listing = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className={`${classes.btnMobile} btn`} onClick={handleSubmit}>
+          Save Listing
         </div>
       </form>
     </div>

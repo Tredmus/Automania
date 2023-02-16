@@ -17,9 +17,11 @@
   transform: translate(-50%, -50%);
   z-index: 101;
   &.free {
-    bottom: 0;
+    @include breakpoint-down(mobile) {
+      bottom: 0;
     left: 0;
     right: 0;
     transform: translate(0, 0);
+    }
   }
   }

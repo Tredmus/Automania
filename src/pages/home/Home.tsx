@@ -14,7 +14,6 @@ export const Home = () => {
       .then(function (response: { data: any }) {
         setData(response.data);
         setCars(response.data.payload.docs);
-        console.log("===========", response.data.payload.docs);
       })
       .catch(function (error: any) {
         console.log(error);

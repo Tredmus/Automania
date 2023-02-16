@@ -9,6 +9,38 @@
         padding: 1.25rem;
         box-shadow: 0px 5px 15px #00347026;
         border-radius: 5px;
+        @include breakpoint-down(mobile) {
+            box-shadow: none;
+            padding: .5rem;
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        @include breakpoint-down(mobile) {
+            flex-direction: column;
+        }
+    }
+
+    .btnDesktop {
+        @include breakpoint-down(mobile) {
+            display: none;
+            pointer-events: none
+        }
+    }
+
+    .btnMobile {
+        display: none;
+        pointer-events: none;
+        @include breakpoint-down(mobile) {
+            display: block;
+            aspect-ratio: auto;
+            border-radius: 5px;
+            margin-top: 3.5rem;
+            padding: .8rem;
+            pointer-events: all;
+        }
     }
 
     .x {
@@ -59,5 +91,11 @@
         display: flex;
         align-items: center;
         gap: 0.625rem;
+    }
+
+    .photoBtn {
+        @include breakpoint-down(mobile) {
+            width: auto;
+        }
     }
 }

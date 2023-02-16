@@ -61,11 +61,8 @@ export const Car = ({ car, isDeleted }: Props) => {
           },
         }
       );
-      console.log(response.data);
-      // TODO: handle successful deletion response
     } catch (error) {
       console.log(error);
-      // TODO: handle deletion error
     } finally {
       isDeleted();
       setModal(false);
@@ -102,7 +99,7 @@ export const Car = ({ car, isDeleted }: Props) => {
       )}
 
       <div className={classes.car}>
-        <img src={car.mainPhoto} alt="" />
+        <img src={car.mainPhoto} alt="" className={classes.main} />
         {userId === car.user._id && (
           <div className={`${classes.manage} `}>
             <div className="btn" onClick={handleManage}>

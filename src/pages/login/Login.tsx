@@ -6,9 +6,7 @@ import { Context } from "../../ContextProvider";
 
 export const Login = () => {
   const context = useContext(Context);
-  console.log("context", context);
   const logIn = context.logIn;
-  console.log("logIn", logIn);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

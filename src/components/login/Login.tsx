@@ -27,7 +27,7 @@ export const Login = () => {
 
   return (
     <NavLink to="/login" className={classes.login}>
-      <img src={`Images/${token ? "profile-logged" : "profile"}.svg`} alt="" />
+      <img src={`images/${token ? "profile-logged" : "profile"}.svg`} alt="" />
       {token?.length || loggedIn ? (
         <h6>Hi, {firstName}</h6>
       ) : (

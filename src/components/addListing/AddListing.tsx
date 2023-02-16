@@ -7,7 +7,7 @@ export const AddListing = () => {
       to="/listing"
       className={`${classes.addListing} ${classes.btn} btn`}
     >
-      <img src="Images/plus.svg" alt="" />
+      <img src="images/plus.svg" alt="" />
 
       <span>Add Listing</span>
     </NavLink>

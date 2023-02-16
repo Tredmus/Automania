@@ -181,7 +181,7 @@ export const Listing = () => {
         <div className="row">
           <div className={classes.x}>
             <img
-              src="Images/x-black.svg"
+              src="images/x-black.svg"
               alt=""
               onClick={() => {
                 navigate("/");
@@ -273,7 +273,7 @@ export const Listing = () => {
                     ref={mainPhotoInputRef}
                     onChange={handleMainPhotoChange}
                   />
-                  <img src="Images/plus-blue.svg" alt="" />
+                  <img src="images/plus-blue.svg" alt="" />
                   <span>Upload</span>
                 </div>
               )}
@@ -286,7 +286,7 @@ export const Listing = () => {
                   className={`${classes.photoBtn} btn photoBtn`}
                   onClick={handleAdditionalPhotosClick}
                 >
-                  <img src="Images/plus-blue.svg" alt="" />
+                  <img src="images/plus-blue.svg" alt="" />
                   <span>Upload</span>
                   <input
                     type="file"
